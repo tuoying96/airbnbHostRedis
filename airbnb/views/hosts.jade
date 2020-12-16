@@ -1,0 +1,72 @@
+extends layout
+
+block content
+  h1 Hosts
+
+  if err
+    div.alert.alert-danger= err
+
+  if msg
+    div.alert.alert-success= msg
+
+  .row
+    .col-8
+      h2 Current Hosts
+      div
+        each h in hosts
+          form.p-2(action="/hosts/delete" method="POST")
+            input.flex-shrink-1.m-1(style="min-width:20px" type="hidden" name="id" value=h.id)
+            // input.flex-shrink-1.m-1(style="min-width:20px" type="hidden" name="hostid" value=h.hostid)
+
+            label.form-group Name:
+              input.form-control.m-1(style="min-width:20px" type="text" name="name" value=h.name)
+            label.form-group Email: 
+              input.form-control.m-1(style="min-width:20px" type="text" name="email" value=h.email)
+            label.form-group Phone: 
+              input.form-control.m-1(style="min-width:20px" type="text" name="phone" value=h.phone)
+            
+            p ✨Rating✨:   #{h.hostRating}
+            
+            .form-group
+              // button.m-1.btn.btn-danger(type="submit" formaction="/hosts/count") Listings Count
+              button.m-1.btn.btn-danger(type="submit" formaction="/hosts/delete") X
+              button.m-1.btn.btn-secondary(type="submit" formaction="/hosts/update") Update
+            hr
+
+      nav(aria-label="Page navigation example")
+        ul(class="pagination")
+          //- for (var i = 1; i < 20; ++i) {
+          //-   li(class="page-item")
+          //-   const str ='/hosts?page=' + i
+          //-   a(class="page-link" href= str) i
+          //- }
+          li(class="page-item")
+            a(class="page-link" href="/hosts?page=1") 1
+          li(class="page-item")
+            a(class="page-link" href="/hosts?page=2") 2
+          li(class="page-item")
+            a(class="page-link" href="/hosts?page=3") 3
+            
+    .col-4
+      h2 Become A New Hosts
+      form(action="/hosts/create", method="post")
+        .form-group
+          label Name
+            input.form-control(type="text", name="name")
+
+        .form-group
+          label Email
+            input.form-control(type="text", name="email")
+        
+        .form-group
+          label Phone
+            input.form-control(type="text", name="phone")
+        
+        .form-group
+          label hostRating
+            input.form-control(type="number", name="hostRating", value = 5)
+
+        button.btn.btn-primary(type="submit") Create New Hosts
+      div
+
+//- then end
