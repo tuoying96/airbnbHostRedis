@@ -3,10 +3,10 @@ const redis = require("redis");
 const { promisify } = require("util");
 
 function myDB() {
-  const myDB = {};
+  const myDB = {}; // create an empty object
 
   // We have only one connection per server
-  const client = redis.createClient();
+  const client = redis.createClient(); // connect to redis
 
   client.on("error", function (error) {
     // TODO: HANDLE ERRORS
@@ -41,7 +41,7 @@ function myDB() {
 
     host.id = await pincr("countHostId");
     await phmset("host:" + host.id, host);
-    return pzadd("hosts", +new Date(), host.id);
+    return pzadd("hosts", -new Date(), host.id);
     // return phmset("host:" + host.id, host);
 
 
@@ -61,7 +61,7 @@ function myDB() {
     return await pzrem("hosts", host.id);
   };
 
-  return myDB;
+  return myDB; // return the empty object
 }
 
 module.exports = myDB();
